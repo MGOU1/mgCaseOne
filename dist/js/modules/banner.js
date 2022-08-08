@@ -1,59 +1,49 @@
 
 
 // 这是一个轮播图模块
-define(['jquery'], function($){
+define(['jquery'] , function($){
 
-  let $bannerList = $('.banner-list');
+  let $bannerList = $('.banner-list')
 
+  
   function initBanner(data){
-    // data -> 后端给我们的数据
-    let html = `
-            <ul>
-              ${
-                data.banner_list.map((v, i)=>{
-                  return `
-                    <li class="${i===0? 'show': ''}"><a href="${v.imgLink}"><img src="${v.imgUrl}" alt=""></a></li>
-                  `;
-                }).join('')
-              }
-            </ul>
-            <ol>
-              ${
-                data.banner_list.map((v, i)=>{
-                  return `
-                    <li class="${i===0? 'active': ''}"></li>
-                  `;
-                }).join('')
-              } 
-            </ol>
-    `;
-    $bannerList.html(html);
-    bindBanner();
+    console.log(data)
+      let html = `
+      <ul>
+          ${data.banner_list.map((v , i) => {
+            return `<li class="${i === 0 ? 'show' : ''}"><a href="#"><img src="${v.imgUrl}" alt=""></a></li>`
+          }).join('')}
+      </ul>
+      <ol>
+          ${data.banner_list.map((v , i) => {
+            return `<li class="${i === 0 ? 'active' : ''}"></li>`
+          }).join('')} 
+      </ol>
+      `
+      $bannerList.html(html)
+
+      bindBanner()
   }
 
   function bindBanner(){
-
-    let $ulLis = $bannerList.find('ul li');
-    let $olLis = $bannerList.find('ol li');
+    let $ullis = $bannerList.find('ul li')
+    let $ollis = $bannerList.find('ol li')
     let now = 0;
-    $olLis.on('mouseover', function(){
-      $(this).addClass('active').siblings().removeClass('active');
-      $ulLis.eq( $(this).index() ).addClass('show').siblings().removeClass('show');
-    });
+    $ollis.on('mouseover' , function(){
+      $(this).addClass('active').siblings().removeClass('active')
+      $ullis.eq( $(this).index() ).addClass('show').siblings().removeClass('show')
+      now = $(this).index()
+    })
 
-    setInterval(()=>{
-      if(now === $ulLis.length-1){
-        now = 0;
+    setInterval(function(){
+      if(now === $ullis.length - 1){
+        now = 0
+      }else{
+        now++
       }
-      else{
-        now++;
-      }
-      $olLis.eq(now).addClass('active').siblings().removeClass('active');
-      $ulLis.eq(now).addClass('show').siblings().removeClass('show');
-    }, 3000)
-
+      $ullis.eq(now).addClass('show').siblings().removeClass('show')
+      $ollis.eq(now).addClass('active').siblings().removeClass('active')
+    },2000)
   }
-
-  return initBanner;
-
+  return initBanner
 })

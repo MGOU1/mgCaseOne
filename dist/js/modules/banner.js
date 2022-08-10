@@ -7,7 +7,6 @@ define(['jquery'] , function($){
 
   
   function initBanner(data){
-    console.log(data)
       let html = `
       <ul>
           ${data.banner_list.map((v , i) => {
